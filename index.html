@@ -1,652 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ShadowPay — Confidential Web3 Invoicing</title>
+  <title>ShadowPay - Confidential Web3 Invoicing</title>
 
-  <!-- Tailwind CSS CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
-  <!-- Phosphor Icons CDN -->
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
-
-  <!-- Custom styles -->
-  <link href="style.css" rel="stylesheet" type="text/css" />
-
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            solana: '#14F195',
-            umbra: '#9945FF',
-          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { solana: '#14F195', umbra: '#9945FF' }
         }
       }
     }
   </script>
+  <link rel="stylesheet" href="style.css">
 </head>
+<body class="bg-zinc-950 text-white font-sans overflow-x-hidden antialiased">
 
-<body class="bg-zinc-950 font-sans text-white antialiased overflow-x-hidden overflow-x-hidden">
+  <section id="view-landing" class="min-h-screen flex flex-col justify-center items-center px-6 relative animate-fade">
+    <div class="absolute top-20 left-10 w-64 h-64 bg-solana/20 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-20 right-10 w-64 h-64 bg-umbra/20 rounded-full blur-[100px] pointer-events-none"></div>
 
-  <!-- ─────────────────────────────────────────── -->
-  <!-- VIEW 1: LANDING                             -->
-  <!-- ─────────────────────────────────────────── -->
-  <section id="view-landing">
-
-    <!-- Ambient background blobs -->
-    <div class="fixed inset-0 pointer-events-none z-0">
-      <div class="glow-blob glow-green" style="top:10%;left:15%;"></div>
-      <div class="glow-blob glow-purple" style="top:55%;right:10%;"></div>
-      <div class="glow-blob glow-green-sm" style="bottom:5%;left:50%;"></div>
+    <div class="flex items-center gap-2 mb-8 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800 backdrop-blur-md">
+      <div class="w-2 h-2 rounded-full bg-solana animate-pulse"></div>
+      <span class="text-xs font-medium text-zinc-300">Powered by Umbra Protocol</span>
     </div>
 
-    <!-- Nav -->
-    <nav class="relative z-10 flex items-center justify-between px-6 md:px-16 py-6">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#14F195] to-[#9945FF] flex items-center justify-center shadow-lg shadow-[#14F195]/30">
-          <i class="ph-bold ph-eye-slash text-zinc-950 text-base"></i>
-        </div>
-        <span class="text-lg font-bold tracking-tight text-white">ShadowPay</span>
-      </div>
-      <div class="hidden md:flex items-center gap-8 text-sm text-zinc-400">
-        <a href="#" class="hover:text-white transition-colors duration-200">Protocol</a>
-        <a href="#" class="hover:text-white transition-colors duration-200">Docs</a>
-        <a href="#" class="hover:text-white transition-colors duration-200">Roadmap</a>
-      </div>
-      <button onclick="showView('view-dashboard')" class="btn-primary text-sm px-4 py-2 rounded-lg font-semibold">
-        Launch App
+    <h1 class="text-5xl md:text-6xl font-extrabold text-center tracking-tight leading-tight mb-6">
+      Confidential Invoicing <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-solana to-emerald-300">for Web3.</span>
+    </h1>
+
+    <p class="text-zinc-400 text-center text-lg mb-12 max-w-md">
+      Send and receive private on-chain invoices. Your amounts stay hidden. Your identity stays sovereign.
+    </p>
+
+    <div class="flex flex-col w-full max-w-sm gap-4">
+      <button onclick="switchView('view-dashboard')" class="w-full bg-solana text-zinc-950 font-bold text-lg py-4 rounded-2xl shadow-[0_0_20px_rgba(20,241,149,0.3)] transition-transform active:scale-95 flex justify-center items-center gap-2">
+        <i class="ph ph-rocket-launch text-2xl"></i> Launch App
       </button>
-    </nav>
-
-    <div class="relative z-10 pb-28">
-      <!-- Hero -->
-      <div class="flex flex-col items-center justify-center text-center min-h-[90vh] px-6">
-
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-400 mb-8 backdrop-blur-sm">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#14F195] animate-pulse"></span>
-          Powered by Umbra Protocol on Solana
-        </div>
-
-        <!-- Headline -->
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] mb-6 max-w-5xl">
-          Confidential Invoicing
-          <br />
-          <span class="text-gradient">for Web3.</span>
-        </h1>
-
-        <!-- Subheadline -->
-        <p class="text-zinc-400 text-lg md:text-xl max-w-xl mb-12 leading-relaxed font-light">
-          Send and receive private on-chain invoices. Your amounts stay hidden. Your identity stays sovereign.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-center gap-4">
-          <button onclick="showView('view-dashboard')" class="btn-hero group flex items-center gap-3 px-8 py-4 rounded-2xl text-base font-bold">
-            <i class="ph-bold ph-rocket-launch text-zinc-950 text-lg"></i>
-            Launch App
-            <i class="ph-bold ph-arrow-right text-zinc-950 text-sm group-hover:translate-x-1 transition-transform duration-200"></i>
-          </button>
-          <button onclick="showView('view-pay')" class="flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold text-zinc-300 border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
-            <i class="ph-bold ph-receipt text-[#9945FF]"></i>
-            Pay an Invoice
-          </button>
-        </div>
-
-        <!-- Stats row -->
-        <div class="flex flex-wrap justify-center gap-8 mt-20 pt-12 border-t border-white/5 w-full max-w-2xl">
-          <div class="text-center">
-            <p class="text-3xl font-black text-white">$2.4M+</p>
-            <p class="text-xs text-zinc-500 mt-1 uppercase tracking-widest">Invoiced Privately</p>
-          </div>
-          <div class="w-px bg-white/10 hidden sm:block"></div>
-          <div class="text-center">
-            <p class="text-3xl font-black text-white">1,847</p>
-            <p class="text-xs text-zinc-500 mt-1 uppercase tracking-widest">Active Senders</p>
-          </div>
-          <div class="w-px bg-white/10 hidden sm:block"></div>
-          <div class="text-center">
-            <p class="text-3xl font-black text-[#14F195]">0</p>
-            <p class="text-xs text-zinc-500 mt-1 uppercase tracking-widest">Data Leaks</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scroll indicator -->
-      <div class="flex justify-center pb-8">
-        <div class="flex flex-col items-center gap-1 text-zinc-600 text-xs animate-bounce">
-          <i class="ph ph-caret-down text-lg"></i>
-        </div>
-      </div>
+      <button onclick="switchView('view-pay')" class="w-full bg-zinc-900 border border-zinc-800 text-white font-medium text-lg py-4 rounded-2xl transition-transform active:scale-95 flex justify-center items-center gap-2">
+        <i class="ph ph-wallet text-2xl"></i> Pay an Invoice
+      </button>
     </div>
-
   </section>
 
-  <!-- ─────────────────────────────────────────── -->
-  <!-- VIEW 2: DASHBOARD                           -->
-  <!-- ─────────────────────────────────────────── -->
-  <section id="view-dashboard" class="hidden min-h-screen">
-
-    <!-- Ambient blobs -->
-    <div class="fixed inset-0 pointer-events-none z-0">
-      <div class="glow-blob glow-purple" style="top:0%;left:5%;opacity:0.4;"></div>
-      <div class="glow-blob glow-green-sm" style="bottom:10%;right:5%;opacity:0.3;"></div>
-    </div>
-
-    <!-- Top Navbar -->
-    <nav class="relative z-10 flex items-center justify-between px-6 md:px-10 py-4 border-b border-white/5 glass-nav">
+  <section id="view-dashboard" class="hidden min-h-screen bg-zinc-950 pb-32 animate-fade">
+    <header class="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 px-4 py-4 flex justify-between items-center">
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#14F195] to-[#9945FF] flex items-center justify-center shadow-lg shadow-[#14F195]/20">
-          <i class="ph-bold ph-eye-slash text-zinc-950 text-base"></i>
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-umbra to-solana flex justify-center items-center">
+          <i class="ph-bold ph-shield-check text-white text-lg"></i>
         </div>
-        <span class="text-base font-bold tracking-tight">ShadowPay</span>
+        <span class="font-bold text-xl tracking-tight">ShadowPay</span>
       </div>
-
-      <!-- Nav Links -->
-      <div class="hidden md:flex items-center gap-1">
-        <button class="nav-tab active-tab" id="tab-dashboard">
-          <i class="ph-bold ph-squares-four"></i> Dashboard
-        </button>
-        <button class="nav-tab">
-          <i class="ph-bold ph-file-text"></i> Invoices
-        </button>
-        <button class="nav-tab">
-          <i class="ph-bold ph-chart-bar"></i> Analytics
-        </button>
-        <button class="nav-tab">
-          <i class="ph-bold ph-gear"></i> Settings
-        </button>
-      </div>
-
-      <!-- Right actions -->
-      <div class="flex items-center gap-3">
-        <button class="relative p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-200">
-          <i class="ph-bold ph-bell text-lg"></i>
-          <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#14F195]"></span>
-        </button>
-        <button id="connectWalletBtn" onclick="toggleWallet()" class="btn-wallet flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold">
-          <i class="ph-bold ph-wallet text-base"></i>
-          <span id="walletLabel">Connect Wallet</span>
-        </button>
-      </div>
-    </nav>
-
-    <div class="relative z-10 pb-28">
-      <!-- Dashboard Body -->
-      <div class="max-w-6xl mx-auto px-6 py-10">
-
-        <!-- Greeting -->
-        <div class="mb-8">
-          <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Good evening, Anon <span class="text-zinc-500 font-light">👁</span></h2>
-          <p class="text-zinc-500 text-sm mt-1">Your financial activity is fully private on-chain.</p>
-        </div>
-
-        <!-- Stats Cards Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs text-zinc-500 uppercase tracking-widest">Total Invoiced</p>
-              <div class="w-8 h-8 rounded-lg bg-[#14F195]/10 flex items-center justify-center">
-                <i class="ph-bold ph-trending-up text-[#14F195] text-sm"></i>
-              </div>
-            </div>
-            <p class="text-2xl font-black text-white">•••• <span class="text-[#14F195]">USDC</span></p>
-            <p class="text-xs text-zinc-600 mt-1">Hidden for privacy</p>
-          </div>
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs text-zinc-500 uppercase tracking-widest">Pending</p>
-              <div class="w-8 h-8 rounded-lg bg-[#9945FF]/10 flex items-center justify-center">
-                <i class="ph-bold ph-clock text-[#9945FF] text-sm"></i>
-              </div>
-            </div>
-            <p class="text-2xl font-black text-white">3 <span class="text-zinc-500 font-normal text-base">invoices</span></p>
-            <p class="text-xs text-zinc-600 mt-1">Awaiting payment</p>
-          </div>
-          <div class="glass-card p-5 rounded-2xl">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs text-zinc-500 uppercase tracking-widest">Privacy Score</p>
-              <div class="w-8 h-8 rounded-lg bg-[#14F195]/10 flex items-center justify-center">
-                <i class="ph-bold ph-shield-check text-[#14F195] text-sm"></i>
-              </div>
-            </div>
-            <p class="text-2xl font-black text-[#14F195]">99<span class="text-base font-semibold">/100</span></p>
-            <p class="text-xs text-zinc-600 mt-1">Excellent protection</p>
-          </div>
-        </div>
-
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-          <!-- Create Invoice Card (2/3 width) -->
-          <div class="lg:col-span-2">
-            <div class="glass-card-highlight rounded-2xl p-6 md:p-8">
-              <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#14F195]/20 to-[#9945FF]/20 flex items-center justify-center border border-[#14F195]/20">
-                  <i class="ph-bold ph-plus text-[#14F195] text-lg"></i>
-                </div>
-                <div>
-                  <h3 class="text-base font-bold">Create New Invoice</h3>
-                  <p class="text-xs text-zinc-500">Private & on-chain</p>
-                </div>
-              </div>
-
-              <div class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Recipient Address</label>
-                    <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3">
-                      <i class="ph ph-user text-zinc-600 text-sm flex-shrink-0"></i>
-                      <input type="text" placeholder="0x... or ENS" class="text-[16px] bg-transparent flex-1 text-sm text-white placeholder-zinc-600 outline-none focus:ring-2 focus:ring-[#14F195] focus:border-transparent outline-none transition-all duration-200" />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Token</label>
-                    <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3 cursor-pointer">
-                      <div class="w-4 h-4 rounded-full bg-gradient-to-br from-[#14F195] to-[#9945FF] flex-shrink-0"></div>
-                      <span class="text-[16px] text-sm text-white flex-1">USDC</span>
-                      <i class="ph-bold ph-caret-down text-zinc-600 text-xs"></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Amount</label>
-                    <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3">
-                      <i class="ph ph-currency-dollar text-zinc-600 text-sm flex-shrink-0"></i>
-                      <input type="number" placeholder="0.00" class="text-[16px] bg-transparent flex-1 text-sm text-white placeholder-zinc-600 outline-none focus:ring-2 focus:ring-[#14F195] focus:border-transparent outline-none transition-all duration-200" />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Due Date</label>
-                    <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3">
-                      <i class="ph ph-calendar text-zinc-600 text-sm flex-shrink-0"></i>
-                      <input type="date" class="text-[16px] bg-transparent flex-1 text-sm text-zinc-400 outline-none [color-scheme:dark] focus:ring-2 focus:ring-[#14F195] focus:border-transparent outline-none transition-all duration-200" />
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Memo (Encrypted On-chain)</label>
-                  <div class="input-field rounded-xl px-4 py-3">
-                    <textarea rows="2" placeholder="e.g. Design services — Q2 2026" class="text-[16px] bg-transparent w-full text-sm text-white placeholder-zinc-600 outline-none resize-none focus:ring-2 focus:ring-[#14F195] focus:border-transparent outline-none transition-all duration-200"></textarea>
-                  </div>
-                </div>
-
-                <button onclick="showView('view-pay')" class="btn-primary w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-sm">
-                  <i class="ph-bold ph-shield-check text-zinc-950 text-base"></i>
-                  Generate Confidential Invoice
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right sidebar: Quick actions + balance -->
-          <div class="space-y-4">
-            <!-- Balance -->
-            <div class="glass-card rounded-2xl p-5">
-              <p class="text-xs text-zinc-500 uppercase tracking-widest mb-3">Wallet Balance</p>
-              <div class="flex items-end gap-1 mb-1">
-                <span class="text-3xl font-black text-white">••••••</span>
-                <span class="text-sm text-zinc-400 mb-1.5">USDC</span>
-              </div>
-              <div class="flex items-center gap-1 text-xs text-zinc-600">
-                <i class="ph ph-lock-simple text-[#9945FF] text-xs"></i>
-                Stealth-shielded balance
-              </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="glass-card rounded-2xl p-5">
-              <p class="text-xs text-zinc-500 uppercase tracking-widest mb-3">Quick Actions</p>
-              <div class="space-y-2">
-                <button onclick="showView('view-pay')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-200 text-sm text-zinc-300 font-medium">
-                  <i class="ph-bold ph-paper-plane-tilt text-[#14F195]"></i>
-                  Send Private Payment
-                </button>
-                <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-200 text-sm text-zinc-300 font-medium">
-                  <i class="ph-bold ph-qr-code text-[#9945FF]"></i>
-                  Generate Pay Link
-                </button>
-                <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-200 text-sm text-zinc-300 font-medium">
-                  <i class="ph-bold ph-download-simple text-zinc-400"></i>
-                  Export Receipts
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Invoices -->
-        <div class="mt-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-base font-bold">Recent Invoices</h3>
-            <button class="text-xs text-zinc-500 hover:text-[#14F195] transition-colors duration-200 flex items-center gap-1">
-              View all <i class="ph ph-arrow-right text-xs"></i>
-            </button>
-          </div>
-          <div class="glass-card rounded-2xl overflow-hidden">
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm">
-                <thead>
-                  <tr class="border-b border-white/5">
-                    <th class="text-left text-xs text-zinc-600 uppercase tracking-wider px-6 py-4 font-medium">Invoice</th>
-                    <th class="text-left text-xs text-zinc-600 uppercase tracking-wider px-4 py-4 font-medium">Recipient</th>
-                    <th class="text-left text-xs text-zinc-600 uppercase tracking-wider px-4 py-4 font-medium">Amount</th>
-                    <th class="text-left text-xs text-zinc-600 uppercase tracking-wider px-4 py-4 font-medium">Status</th>
-                    <th class="text-left text-xs text-zinc-600 uppercase tracking-wider px-4 py-4 font-medium">Date</th>
-                    <th class="px-4 py-4"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="invoice-row border-b border-white/5">
-                    <td class="px-6 py-4">
-                      <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-[#14F195]/10 flex items-center justify-center flex-shrink-0">
-                          <i class="ph-bold ph-file-text text-[#14F195] text-xs"></i>
-                        </div>
-                        <div>
-                          <p class="text-white font-medium">SPY-0042</p>
-                          <p class="text-zinc-600 text-xs">Design Work</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-400 font-mono text-xs truncate">0x3f4a...c91d</td>
-                    <td class="px-4 py-4">
-                      <span class="text-white font-mono">•••••• <span class="text-zinc-500 text-xs">USDC</span></span>
-                    </td>
-                    <td class="px-4 py-4">
-                      <span class="status-badge status-paid">Paid</span>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-500 text-xs">Apr 06, 2026</td>
-                    <td class="px-4 py-4">
-                      <button onclick="showView('view-pay')" class="text-zinc-600 hover:text-[#14F195] transition-colors duration-200">
-                        <i class="ph-bold ph-arrow-square-out text-base"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="invoice-row border-b border-white/5">
-                    <td class="px-6 py-4">
-                      <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-[#9945FF]/10 flex items-center justify-center flex-shrink-0">
-                          <i class="ph-bold ph-file-text text-[#9945FF] text-xs"></i>
-                        </div>
-                        <div>
-                          <p class="text-white font-medium">SPY-0041</p>
-                          <p class="text-zinc-600 text-xs">Dev Sprint Q2</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-400 font-mono text-xs truncate">0x7b2e...f044</td>
-                    <td class="px-4 py-4">
-                      <span class="text-white font-mono">•••••• <span class="text-zinc-500 text-xs">USDC</span></span>
-                    </td>
-                    <td class="px-4 py-4">
-                      <span class="status-badge status-pending">Pending</span>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-500 text-xs">Apr 04, 2026</td>
-                    <td class="px-4 py-4">
-                      <button onclick="showView('view-pay')" class="text-zinc-600 hover:text-[#14F195] transition-colors duration-200">
-                        <i class="ph-bold ph-arrow-square-out text-base"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="invoice-row border-b border-white/5">
-                    <td class="px-6 py-4">
-                      <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                          <i class="ph-bold ph-file-text text-zinc-500 text-xs"></i>
-                        </div>
-                        <div>
-                          <p class="text-white font-medium">SPY-0040</p>
-                          <p class="text-zinc-600 text-xs">Consulting</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-400 font-mono text-xs truncate">0xda91...8820</td>
-                    <td class="px-4 py-4">
-                      <span class="text-white font-mono">•••••• <span class="text-zinc-500 text-xs">USDC</span></span>
-                    </td>
-                    <td class="px-4 py-4">
-                      <span class="status-badge status-pending">Pending</span>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-500 text-xs">Mar 29, 2026</td>
-                    <td class="px-4 py-4">
-                      <button onclick="showView('view-pay')" class="text-zinc-600 hover:text-[#14F195] transition-colors duration-200">
-                        <i class="ph-bold ph-arrow-square-out text-base"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="invoice-row">
-                    <td class="px-6 py-4">
-                      <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-[#14F195]/10 flex items-center justify-center flex-shrink-0">
-                          <i class="ph-bold ph-file-text text-[#14F195] text-xs"></i>
-                        </div>
-                        <div>
-                          <p class="text-white font-medium">SPY-0039</p>
-                          <p class="text-zinc-600 text-xs">Logo & Brand Kit</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-400 font-mono text-xs truncate">0x11cd...3ba7</td>
-                    <td class="px-4 py-4">
-                      <span class="text-white font-mono">•••••• <span class="text-zinc-500 text-xs">USDC</span></span>
-                    </td>
-                    <td class="px-4 py-4">
-                      <span class="status-badge status-paid">Paid</span>
-                    </td>
-                    <td class="px-4 py-4 text-zinc-500 text-xs">Mar 20, 2026</td>
-                    <td class="px-4 py-4">
-                      <button onclick="showView('view-pay')" class="text-zinc-600 hover:text-[#14F195] transition-colors duration-200">
-                        <i class="ph-bold ph-arrow-square-out text-base"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile nav -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-20 mobile-nav flex items-center justify-around py-3 px-4">
-      <button class="flex flex-col items-center gap-1 text-[#14F195]">
-        <i class="ph-bold ph-squares-four text-lg"></i>
-        <span class="text-[10px] font-medium">Home</span>
+      <button class="bg-zinc-900 border border-zinc-800 text-sm font-medium px-4 py-2 rounded-full flex items-center gap-2">
+        <i class="ph ph-wallet"></i> Connect
       </button>
-      <button class="flex flex-col items-center gap-1 text-zinc-600">
-        <i class="ph-bold ph-file-text text-lg"></i>
-        <span class="text-[10px] font-medium">Invoices</span>
-      </button>
-      <button onclick="showView('view-pay')" class="flex flex-col items-center gap-1 -mt-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#14F195] to-[#9945FF] items-center justify-center shadow-lg shadow-[#14F195]/30">
-        <i class="ph-bold ph-plus text-zinc-950 text-xl"></i>
-      </button>
-      <button class="flex flex-col items-center gap-1 text-zinc-600">
-        <i class="ph-bold ph-chart-bar text-lg"></i>
-        <span class="text-[10px] font-medium">Stats</span>
-      </button>
-      <button class="flex flex-col items-center gap-1 text-zinc-600">
-        <i class="ph-bold ph-gear text-lg"></i>
-        <span class="text-[10px] font-medium">Settings</span>
-      </button>
-    </nav>
+    </header>
 
-  </section>
+    <main class="px-4 mt-6">
+      <h2 class="text-2xl font-bold mb-6">Good evening, Anon 👀</h2>
 
-  <!-- ─────────────────────────────────────────── -->
-  <!-- VIEW 3: PAY (Client Checkout)              -->
-  <!-- ─────────────────────────────────────────── -->
-  <section id="view-pay" class="hidden min-h-screen">
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-3xl p-6 mb-8 relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-solana/10 rounded-full blur-[50px]"></div>
+        <h3 class="font-semibold text-lg flex items-center gap-2 mb-6">
+          <i class="ph-fill ph-plus-circle text-solana text-xl"></i> Create New Invoice
+        </h3>
 
-    <!-- Ambient blobs -->
-    <div class="fixed inset-0 pointer-events-none z-0">
-      <div class="glow-blob glow-purple" style="top:5%;right:10%;opacity:0.5;"></div>
-      <div class="glow-blob glow-green" style="bottom:15%;left:5%;opacity:0.35;"></div>
-    </div>
-
-    <!-- Top bar -->
-    <div class="relative z-10 flex items-center justify-between px-6 py-5 border-b border-white/5">
-      <button onclick="showView('view-dashboard')" class="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors duration-200 text-sm">
-        <i class="ph-bold ph-arrow-left text-base"></i>
-        Back
-      </button>
-      <div class="flex items-center gap-2">
-        <div class="w-6 h-6 rounded-md bg-gradient-to-br from-[#14F195] to-[#9945FF] flex items-center justify-center">
-          <i class="ph-bold ph-eye-slash text-zinc-950 text-xs"></i>
-        </div>
-        <span class="text-sm font-bold">ShadowPay</span>
-      </div>
-      <div class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#14F195]/10 border border-[#14F195]/20">
-        <i class="ph-bold ph-shield-check text-[#14F195] text-xs"></i>
-        <span class="text-[#14F195] text-xs font-semibold">Secured</span>
-      </div>
-    </div>
-
-    <div class="relative z-10 pb-28">
-      <!-- Checkout Content -->
-      <div class="flex flex-col items-center justify-center min-h-[calc(100vh-70px)] px-6 py-10">
-        <div class="w-full max-w-lg">
-
-          <!-- Invoice Header -->
-          <div class="text-center mb-8">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#14F195]/10 to-[#9945FF]/10 border border-[#14F195]/20 flex items-center justify-center mx-auto mb-4">
-              <i class="ph-bold ph-receipt text-[#14F195] text-2xl"></i>
-            </div>
-            <p class="text-zinc-500 text-sm uppercase tracking-widest mb-1">Invoice from</p>
-            <h2 class="text-2xl font-black tracking-tight mb-1">Anon Sender</h2>
-            <p class="text-zinc-500 font-mono text-sm truncate">0x3f4a...c91d</p>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-zinc-400 mb-1">RECIPIENT ADDRESS</label>
+            <input type="text" id="inv-address" placeholder="0x... or ENS" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-[16px] text-white focus:ring-2 focus:ring-solana focus:border-transparent outline-none transition-all duration-200">
           </div>
-
-          <!-- Invoice Card -->
-          <div class="glass-card-highlight rounded-2xl p-6 mb-5">
-
-            <!-- Invoice ID + Date -->
-            <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/5">
-              <div>
-                <p class="text-xs text-zinc-500 uppercase tracking-wider">Invoice</p>
-                <p class="text-white font-bold mt-0.5">SPY-0042</p>
-              </div>
-              <div class="text-right">
-                <p class="text-xs text-zinc-500 uppercase tracking-wider">Due Date</p>
-                <p class="text-white font-bold mt-0.5">Apr 15, 2026</p>
-              </div>
-            </div>
-
-            <!-- Line Items -->
-            <div class="space-y-3 pb-4 mb-4 border-b border-white/5">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-white font-medium">Design Services — Q2 2026</p>
-                  <p class="text-xs text-zinc-600 mt-0.5">Branding, UI Kit, Motion Graphics</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm text-white font-semibold font-mono">••• USDC</p>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-white font-medium">Revisions (3 rounds)</p>
-                  <p class="text-xs text-zinc-600 mt-0.5">As per contract</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm text-white font-semibold font-mono">••• USDC</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Total -->
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-xs text-zinc-500 uppercase tracking-wider">Total Amount</p>
-                <div class="flex items-center gap-2 mt-1">
-                  <div class="w-5 h-5 rounded-full bg-gradient-to-br from-[#14F195] to-[#9945FF] flex-shrink-0"></div>
-                  <p class="text-3xl font-black text-white font-mono">••••••</p>
-                  <p class="text-lg text-zinc-400 font-semibold">USDC</p>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#14F195]/10 border border-[#14F195]/20">
-                  <i class="ph ph-lock-simple text-[#14F195] text-xs"></i>
-                  <span class="text-[#14F195] text-xs font-semibold">Private</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Protocol Info -->
-          <div class="flex items-center gap-3 glass-card rounded-xl p-4 mb-5">
-            <div class="w-10 h-10 rounded-xl bg-[#9945FF]/10 flex items-center justify-center flex-shrink-0">
-              <i class="ph-bold ph-eye-slash text-[#9945FF] text-base"></i>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-medium text-zinc-400 mb-1">TOKEN</label>
+              <select class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-[16px] text-white focus:ring-2 focus:ring-solana outline-none appearance-none">
+                <option>USDC (Solana)</option>
+                <option>SOL</option>
+              </select>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white">Umbra Stealth Protocol</p>
-              <p class="text-xs text-zinc-500 mt-0.5">Payment routes through a private relay. Sender and amount remain hidden from the public ledger.</p>
+              <label class="block text-xs font-medium text-zinc-400 mb-1">AMOUNT</label>
+              <input type="number" id="inv-amount" placeholder="0.00" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-[16px] text-white focus:ring-2 focus:ring-solana focus:border-transparent outline-none transition-all duration-200">
             </div>
           </div>
-
-          <!-- Pay Button -->
-          <button id="payBtn" onclick="triggerPay()" class="btn-pay w-full flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-lg text-zinc-950 mb-4">
-            <i class="ph-bold ph-eye-slash text-xl"></i>
-            Pay Confidentially via Umbra
+          <button onclick="generateInvoice()" class="w-full mt-4 bg-zinc-100 text-zinc-950 font-bold text-[16px] py-4 rounded-xl transition-transform active:scale-95 flex justify-center items-center gap-2">
+            <i class="ph-bold ph-lock-key"></i> Generate Confidential Link
           </button>
-
-          <!-- Disclaimer -->
-          <p class="text-center text-xs text-zinc-600 leading-relaxed">
-            By paying, you agree that no transaction metadata is stored. This payment is routed via Umbra's stealth address protocol on Solana.
-          </p>
-
-          <!-- Trust badges -->
-          <div class="flex items-center justify-center gap-6 mt-6">
-            <div class="flex items-center gap-1.5 text-zinc-600 text-xs">
-              <i class="ph ph-shield-check text-[#14F195]"></i>
-              Non-custodial
-            </div>
-            <div class="w-px h-3 bg-white/10"></div>
-            <div class="flex items-center gap-1.5 text-zinc-600 text-xs">
-              <i class="ph ph-lock-simple text-[#9945FF]"></i>
-              Zero data stored
-            </div>
-            <div class="w-px h-3 bg-white/10"></div>
-            <div class="flex items-center gap-1.5 text-zinc-600 text-xs">
-              <i class="ph ph-check-circle text-[#14F195]"></i>
-              Audited
-            </div>
-          </div>
-
         </div>
       </div>
-    </div>
 
+      <h3 class="font-semibold text-lg mb-4">Recent Invoices</h3>
+      <div class="space-y-3">
+        <div onclick="switchView('view-pay')" class="bg-zinc-900 border border-zinc-800/50 rounded-2xl p-4 flex justify-between items-center active:scale-[0.98] transition-transform cursor-pointer">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-zinc-800 flex justify-center items-center">
+              <i class="ph ph-receipt text-zinc-400 text-lg"></i>
+            </div>
+            <div>
+              <p class="font-medium text-sm">SPY-0042</p>
+              <p class="text-xs text-zinc-500 truncate w-32">0x3f4a...c91d</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-sm tracking-widest text-zinc-300">••••••</p>
+            <p class="text-xs text-solana font-medium mt-1">Paid</p>
+          </div>
+        </div>
+        <div onclick="switchView('view-pay')" class="bg-zinc-900 border border-zinc-800/50 rounded-2xl p-4 flex justify-between items-center active:scale-[0.98] transition-transform cursor-pointer">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-zinc-800 flex justify-center items-center">
+              <i class="ph ph-clock text-orange-400 text-lg"></i>
+            </div>
+            <div>
+              <p class="font-medium text-sm">SPY-0041</p>
+              <p class="text-xs text-zinc-500 truncate w-32">0x7b2e...f044</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-sm tracking-widest text-zinc-300">••••••</p>
+            <p class="text-xs text-orange-400 font-medium mt-1">Pending</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <nav class="fixed bottom-0 w-full bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800 pb-8 pt-4 px-6 flex justify-between items-center z-50">
+      <div class="flex flex-col items-center gap-1 text-solana cursor-pointer">
+        <i class="ph-fill ph-house text-2xl"></i>
+        <span class="text-[10px] font-medium">Home</span>
+      </div>
+      <div class="flex flex-col items-center gap-1 text-zinc-500 cursor-pointer">
+        <i class="ph ph-list-dashes text-2xl"></i>
+        <span class="text-[10px] font-medium">Invoices</span>
+      </div>
+      <div class="w-12 h-12 bg-solana rounded-full flex justify-center items-center shadow-[0_0_15px_rgba(20,241,149,0.4)] text-zinc-950 cursor-pointer -mt-6">
+        <i class="ph-bold ph-plus text-xl"></i>
+      </div>
+      <div class="flex flex-col items-center gap-1 text-zinc-500 cursor-pointer">
+        <i class="ph ph-chart-bar text-2xl"></i>
+        <span class="text-[10px] font-medium">Stats</span>
+      </div>
+      <div class="flex flex-col items-center gap-1 text-zinc-500 cursor-pointer">
+        <i class="ph ph-gear text-2xl"></i>
+        <span class="text-[10px] font-medium">Settings</span>
+      </div>
+    </nav>
   </section>
 
-  <!-- Pay Success Toast -->
-  <div id="toast-success" class="toast-hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-[#14F195] text-zinc-950 font-semibold text-sm shadow-2xl shadow-[#14F195]/40">
-    <i class="ph-bold ph-check-circle text-lg"></i>
-    Payment sent confidentially!
-  </div>
+  <section id="view-pay" class="hidden min-h-screen bg-zinc-950 pb-32 animate-fade">
+    <header class="p-4 flex justify-between items-center border-b border-zinc-800/50">
+      <button onclick="switchView('view-dashboard')" class="text-zinc-400 flex items-center gap-1 active:text-white transition-colors">
+        <i class="ph-bold ph-caret-left"></i> Back
+      </button>
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded bg-gradient-to-br from-umbra to-solana flex justify-center items-center">
+          <i class="ph-bold ph-shield-check text-white text-[10px]"></i>
+        </div>
+        <span class="font-bold text-sm">ShadowPay</span>
+      </div>
+      <div class="px-2 py-1 bg-solana/10 text-solana text-xs font-medium rounded border border-solana/20">
+        Secured
+      </div>
+    </header>
 
-  <!-- Wallet Connect Toast -->
-  <div id="toast-wallet" class="toast-hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-[#9945FF] text-white font-semibold text-sm shadow-2xl shadow-[#9945FF]/40">
-    <i class="ph-bold ph-wallet text-lg"></i>
-    <span id="toast-wallet-msg">Wallet connected!</span>
-  </div>
+    <main class="px-4 mt-8 flex flex-col items-center">
+      <div class="w-16 h-16 rounded-full bg-zinc-900 border border-zinc-800 flex justify-center items-center mb-4 shadow-lg">
+        <i class="ph-fill ph-receipt text-3xl text-zinc-300"></i>
+      </div>
+      <p class="text-xs text-zinc-500 font-medium tracking-widest uppercase mb-1">Invoice From</p>
+      <h2 class="text-2xl font-bold mb-1">Anon Sender</h2>
+      <p class="text-sm text-zinc-400 font-mono mb-8 truncate w-40 text-center">0x3f4a...c91d</p>
+
+      <div class="w-full bg-zinc-900/50 border border-zinc-800 rounded-3xl p-6 mb-6">
+        <div class="flex justify-between border-b border-zinc-800 pb-4 mb-4">
+          <div>
+            <p class="text-xs text-zinc-500 mb-1">INVOICE</p>
+            <p class="font-medium">SPY-0042</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-zinc-500 mb-1">DUE DATE</p>
+            <p class="font-medium">Apr 15, 2026</p>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <p class="font-medium">Design Services</p>
+            <p class="text-xs text-zinc-500">Q2 2026 Branding</p>
+          </div>
+          <p class="font-bold tracking-widest">•••• USDC</p>
+        </div>
+
+        <div class="flex justify-between items-center border-t border-zinc-800 pt-4">
+          <p class="text-xs text-zinc-500 font-medium">TOTAL AMOUNT</p>
+          <div class="flex items-center gap-2">
+            <div class="flex gap-1">
+              <div class="w-2 h-2 rounded-full bg-umbra"></div>
+              <div class="w-2 h-2 rounded-full bg-zinc-600"></div>
+              <div class="w-2 h-2 rounded-full bg-zinc-600"></div>
+            </div>
+            <span class="font-bold">USDC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full bg-umbra/10 border border-umbra/20 rounded-2xl p-4 flex gap-3 mb-8">
+        <i class="ph-fill ph-eye-slash text-umbra text-xl mt-0.5"></i>
+        <p class="text-xs text-zinc-300 leading-relaxed">
+          <strong class="text-umbra block mb-1 text-sm">Umbra Stealth Protocol</strong>
+          Payment routes through a private relay. Sender and amount remain hidden from the public ledger.
+        </p>
+      </div>
+
+      <button id="btn-pay" onclick="simulatePayment()" class="w-full bg-gradient-to-r from-umbra to-solana text-white font-bold text-lg py-4 rounded-2xl transition-all active:scale-95 flex justify-center items-center gap-2 shadow-[0_0_20px_rgba(153,69,255,0.3)]">
+        <i class="ph-fill ph-lock-key"></i> <span id="btn-pay-text">Pay Confidentially via Umbra</span>
+      </button>
+    </main>
+  </section>
 
   <script src="script.js"></script>
 </body>
-
 </html>
