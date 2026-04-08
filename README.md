@@ -6,8 +6,9 @@
 
 **Built specifically for the Umbra Side Track Hackathon (Superteam Earn)**
 
-🔗 **Live Demo:**[https://shadowpay-umbra-hackathon.onrender.com]
-📺 **Video Pitch:**[https://youtube.com/shorts/naAdkn1_x3w?si=GGRfR0izk9T_GWRQ]
+🔗 **Live Demo:** https://shadowpay-umbra-hackathon.onrender.com
+📺 **Video Pitch:**
+https://youtube.com/shorts/naAdkn1_x3w?si=GGRfR0izk9T_GWRQ
 
 ---
 
@@ -48,16 +49,17 @@ ShadowPay fundamentally relies on the core principles of the Umbra SDK to enable
 If you wish to test the architecture locally:
 
 1. **Clone the repository:**
-git clone (https://github.com/dakshrawat298-gif/shadowpay-umbra-hackathon.git)
+git clone
+https://github.com/dakshrawat298-gif/shadowpay-umbra-hackathon.git
 cd shadowpay-umbra-hackathon
 
-2. **Install dependencies:**
+3. **Install dependencies:**
 npm install
 
-3. **Run the server:**
+4. **Run the server:**
 npm start
 
-4. **Test the dApp:**
+5. **Test the dApp:**
 Open http://localhost:3000 inside the Phantom Wallet's in-built dApp Browser to ensure wallet injection works flawlessly.
 
 Designed & Developed with ❤️ for the Solana Ecosystem.
