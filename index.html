@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ShadowPay — Confidential Web3 Invoicing</title>
 
   <!-- Tailwind CSS CDN -->
@@ -245,14 +245,14 @@
                   <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Recipient Address</label>
                   <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3">
                     <i class="ph ph-user text-zinc-600 text-sm flex-shrink-0"></i>
-                    <input type="text" placeholder="0x... or ENS" class="bg-transparent flex-1 text-sm text-white placeholder-zinc-600 outline-none" />
+                    <input type="text" placeholder="0x... or ENS" class="text-[16px] bg-transparent flex-1 text-sm text-white placeholder-zinc-600 outline-none" />
                   </div>
                 </div>
                 <div>
                   <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Token</label>
                   <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3 cursor-pointer">
                     <div class="w-4 h-4 rounded-full bg-gradient-to-br from-[#14F195] to-[#9945FF] flex-shrink-0"></div>
-                    <span class="text-sm text-white flex-1">USDC</span>
+                    <span class="text-[16px] text-sm text-white flex-1">USDC</span>
                     <i class="ph-bold ph-caret-down text-zinc-600 text-xs"></i>
                   </div>
                 </div>
@@ -263,14 +263,14 @@
                   <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Amount</label>
                   <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3">
                     <i class="ph ph-currency-dollar text-zinc-600 text-sm flex-shrink-0"></i>
-                    <input type="number" placeholder="0.00" class="bg-transparent flex-1 text-sm text-white placeholder-zinc-600 outline-none" />
+                    <input type="number" placeholder="0.00" class="text-[16px] bg-transparent flex-1 text-sm text-white placeholder-zinc-600 outline-none" />
                   </div>
                 </div>
                 <div>
                   <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Due Date</label>
                   <div class="flex items-center gap-2 input-field rounded-xl px-4 py-3">
                     <i class="ph ph-calendar text-zinc-600 text-sm flex-shrink-0"></i>
-                    <input type="date" class="bg-transparent flex-1 text-sm text-zinc-400 outline-none [color-scheme:dark]" />
+                    <input type="date" class="text-[16px] bg-transparent flex-1 text-sm text-zinc-400 outline-none [color-scheme:dark]" />
                   </div>
                 </div>
               </div>
@@ -278,7 +278,7 @@
               <div>
                 <label class="block text-xs text-zinc-500 mb-1.5 uppercase tracking-wider">Memo (Encrypted On-chain)</label>
                 <div class="input-field rounded-xl px-4 py-3">
-                  <textarea rows="2" placeholder="e.g. Design services — Q2 2026" class="bg-transparent w-full text-sm text-white placeholder-zinc-600 outline-none resize-none"></textarea>
+                  <textarea rows="2" placeholder="e.g. Design services — Q2 2026" class="text-[16px] bg-transparent w-full text-sm text-white placeholder-zinc-600 outline-none resize-none"></textarea>
                 </div>
               </div>
 
