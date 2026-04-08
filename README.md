@@ -6,8 +6,8 @@
 
 **Built specifically for the Umbra Side Track Hackathon (Superteam Earn)**
 
-🔗 **Live Demo:** [https://shadowpay-umbra-hackathon.onrender.com]
-📺 **Video Pitch:** [https://youtube.com/shorts/naAdkn1_x3w?si=GGRfR0izk9T_GWRQ]
+🔗 **Live Demo:**[https://shadowpay-umbra-hackathon.onrender.com]
+📺 **Video Pitch:**[https://youtube.com/shorts/naAdkn1_x3w?si=GGRfR0izk9T_GWRQ]
 
 ---
 
