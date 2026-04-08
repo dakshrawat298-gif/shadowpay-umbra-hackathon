@@ -48,7 +48,7 @@ ShadowPay fundamentally relies on the core principles of the Umbra SDK to enable
 If you wish to test the architecture locally:
 
 1. **Clone the repository:**
-git clone [https://github.com/YOUR_GITHUB_USERNAME/shadowpay-umbra-hackathon.git](https://github.com/YOUR_GITHUB_USERNAME/shadowpay-umbra-hackathon.git)
+git clone [https://github.com/YOUR_GITHUB_USERNAME/shadowpay-umbra-hackathon.git](https://github.com/dakshrawat298-gif/shadowpay-umbra-hackathon.git)
 cd shadowpay-umbra-hackathon
 
 2. **Install dependencies:**
