@@ -14,16 +14,17 @@ function showView(targetId) {
 
     if (id === targetId) {
       el.classList.remove('hidden');
+      el.classList.add('animate-fade');
       // Force a reflow so the animation triggers fresh each time
       void el.offsetHeight;
-      el.classList.add('fade-in');
       // Remove the animation class after it plays (so it can re-trigger)
       el.addEventListener('animationend', () => {
-        el.classList.remove('fade-in');
+        el.classList.remove('animate-fade');
       }, { once: true });
       // Scroll to top on view change
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
+      el.classList.remove('animate-fade');
       el.classList.add('hidden');
     }
   });
