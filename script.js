@@ -1,137 +1,90 @@
-/* ─────────────────────────────────────────────────
-   ShadowPay — View Router & Interaction Logic
-   Pure Vanilla JavaScript, zero dependencies
-───────────────────────────────────────────────── */
+let currentView = 'view-landing';
+let walletConnected = true; // Set true by default for screenshots
 
-// All top-level view section IDs
-const VIEWS = ['view-landing', 'view-dashboard', 'view-pay'];
-
-// ── View Navigation ────────────────────────────
+// Smooth Slide Views
 function showView(targetId) {
-  VIEWS.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
+  if (targetId === currentView) return;
 
-    if (id === targetId) {
-      el.classList.remove('hidden');
-      el.classList.add('animate-fade');
-      // Force a reflow so the animation triggers fresh each time
-      void el.offsetHeight;
-      // Remove the animation class after it plays (so it can re-trigger)
-      el.addEventListener('animationend', () => {
-        el.classList.remove('animate-fade');
-      }, { once: true });
-      // Scroll to top on view change
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      el.classList.remove('animate-fade');
-      el.classList.add('hidden');
-    }
-  });
+  const targetEl = document.getElementById(targetId);
+  const currentEl = document.getElementById(currentView);
+
+  if (currentEl) {
+    currentEl.classList.add('animate-slide-out');
+    currentEl.addEventListener('animationend', function handleOut() {
+      currentEl.classList.add('hidden');
+      currentEl.classList.remove('animate-slide-out');
+      currentEl.removeEventListener('animationend', handleOut);
+    });
+  }
+
+  if (targetEl) {
+    targetEl.classList.remove('hidden');
+    targetEl.classList.add('animate-slide-in');
+    targetEl.addEventListener('animationend', function handleIn() {
+      targetEl.classList.remove('animate-slide-in');
+      targetEl.removeEventListener('animationend', handleIn);
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  currentView = targetId;
 }
 
-// ── Wallet Connect Toggle ──────────────────────
-let walletConnected = false;
+// Toast Notification
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-msg').innerText = msg;
+  toast.classList.add('toast-visible');
+  setTimeout(() => toast.classList.remove('toast-visible'), 2500);
+}
 
+// Wallet Toggle
 function toggleWallet() {
   walletConnected = !walletConnected;
-  const btn = document.getElementById('connectWalletBtn');
-  const label = document.getElementById('walletLabel');
-  const toastMsg = document.getElementById('toast-wallet-msg');
-  const toast = document.getElementById('toast-wallet');
+  const navLabel = document.getElementById('navWalletLabel');
 
-  if (walletConnected) {
-    label.textContent = '0x3f4a...c91d';
-    btn.classList.add('connected');
-    toastMsg.textContent = 'Wallet connected!';
-  } else {
-    label.textContent = 'Connect Wallet';
-    btn.classList.remove('connected');
-    toastMsg.textContent = 'Wallet disconnected.';
+  if (walletConnected) { 
+    navLabel.textContent = '0x3f...c91d'; 
+    showToast('Wallet Connected!');
+  } else { 
+    navLabel.textContent = 'Connect Wallet'; 
+    showToast('Wallet Disconnected');
   }
-
-  showToast(toast);
 }
 
-// ── Pay Button Interaction ─────────────────────
+// Relaxed Validation (Just checking if fields aren't totally empty for demo)
+function validateForm() {
+  const recipient = document.getElementById('recipientInput').value.trim();
+  const amount = document.getElementById('amountInput').value.trim();
+  const btn = document.getElementById('generateBtn');
+
+  // FIXED: Ab tu "Daksh" likhega tab bhi button highlight ho jayega!
+  if (recipient.length > 2 && amount.length > 0) {
+    btn.className = "w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-base bg-[#14F195] text-black active:scale-95 transition-all mt-4 shadow-[0_5px_20px_rgba(20,241,149,0.3)]";
+  } else {
+    btn.className = "w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-base bg-zinc-800 text-zinc-400 transition-all mt-4 active:scale-95";
+  }
+}
+
+// Pay Button Animation
 function triggerPay() {
   const btn = document.getElementById('payBtn');
-  const toast = document.getElementById('toast-success');
+  btn.style.pointerEvents = 'none'; 
+  btn.innerHTML = `<svg class="animate-spin text-black" style="width:24px;height:24px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Processing…`;
 
-  // Loading state
-  btn.classList.add('loading');
-  btn.innerHTML = `
-    <svg class="animate-spin text-zinc-950" style="width:20px;height:20px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-    </svg>
-    Processing…
-  `;
-
-  // Simulate async tx (1.8 seconds)
   setTimeout(() => {
-    btn.classList.remove('loading');
-    btn.innerHTML = `
-      <i class="ph-bold ph-check-circle text-xl"></i>
-      Payment Sent!
-    `;
-    btn.style.background = 'linear-gradient(135deg, #14F195 0%, #0dcf7e 100%)';
+    btn.innerHTML = `<i class="ph-bold ph-check-circle text-2xl"></i> Payment Sent!`;
+    btn.style.background = '#14F195';
 
-    showToast(toast, 4000);
-
-    // Reset button after a moment
-    setTimeout(() => {
-      btn.innerHTML = `
-        <i class="ph-bold ph-eye-slash text-xl"></i>
-        Pay Confidentially via Umbra
-      `;
-      btn.style.background = '';
-    }, 4200);
-  }, 1800);
+    setTimeout(() => { 
+      btn.innerHTML = `<i class="ph-bold ph-eye-slash text-2xl"></i> Pay Confidentially`; 
+      btn.style.background = ''; 
+      btn.style.pointerEvents = 'auto';
+    }, 3000);
+  }, 1500);
 }
 
-// ── Toast Helper ───────────────────────────────
-function showToast(toastEl, duration = 3000) {
-  if (!toastEl) return;
-  toastEl.classList.remove('toast-hidden');
-  toastEl.classList.add('toast-visible');
-  setTimeout(() => {
-    toastEl.classList.remove('toast-visible');
-    toastEl.classList.add('toast-hidden');
-  }, duration);
-}
-
-// ── Nav Tabs (visual active state only) ────────
-document.querySelectorAll('.nav-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active-tab'));
-    tab.classList.add('active-tab');
-  });
-});
-
-// ── Input focus ring enhancement ───────────────
-document.querySelectorAll('.input-field input, .input-field textarea').forEach(input => {
-  input.addEventListener('focus', () => {
-    input.closest('.input-field')?.classList.add('focus-within');
-  });
-  input.addEventListener('blur', () => {
-    input.closest('.input-field')?.classList.remove('focus-within');
-  });
-});
-
-// ── Keyboard shortcut: Escape → Landing ────────
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    const dashboard = document.getElementById('view-dashboard');
-    const pay = document.getElementById('view-pay');
-    if (!dashboard.classList.contains('hidden') || !pay.classList.contains('hidden')) {
-      showView('view-landing');
-    }
-  }
-});
-
-// ── On DOM Ready ───────────────────────────────
+// Initialize App
 document.addEventListener('DOMContentLoaded', () => {
-  // Ensure landing is shown by default
-  showView('view-landing');
+  document.getElementById('view-landing').classList.remove('hidden');
 });
